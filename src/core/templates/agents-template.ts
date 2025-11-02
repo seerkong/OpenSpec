@@ -9,10 +9,11 @@ Instructions for AI coding assistants using OpenSpec for spec-driven development
 - Pick a unique \`change-id\`: kebab-case, verb-led (\`add-\`, \`update-\`, \`remove-\`, \`refactor-\`)
 - Scaffold: \`proposal.md\`, \`tasks.md\`, \`design.md\` (only if needed), and delta specs per affected capability
 - Write deltas: use \`## ADDED|MODIFIED|REMOVED|RENAMED Requirements\`; include at least one \`#### Scenario:\` per requirement
+- Record tech design: log mutations in \`openspec/changes/<change-id>/architect/mutations.xml\` and refresh XML snapshots in \`openspec/architect/\`
 - Validate: \`openspec validate [change-id] --strict\` and fix issues
 - Request approval: Do not start implementation until proposal is approved
 
-## Three-Stage Workflow
+## Four-Stage Workflow
 
 ### Stage 1: Creating Changes
 Create proposal when you need to:
@@ -46,7 +47,15 @@ Skip proposal for:
 3. Draft spec deltas using \`## ADDED|MODIFIED|REMOVED Requirements\` with at least one \`#### Scenario:\` per requirement.
 4. Run \`openspec validate <id> --strict\` and resolve any issues before sharing the proposal.
 
-### Stage 2: Implementing Changes
+### Stage 2: Architecture Tech Design (optional but recommended)
+Use this stage when the proposal alters system structure, introduces new services, or otherwise requires architecture updates.
+1. Confirm the active change ID and its spec deltas under \`openspec/changes/<id>/specs/\`.
+2. Review \`openspec/architect/prompts/DSL结构定义.md\`、\`openspec/architect/prompts/DSL输出规范.md\` 了解字段定义与指令格式，并参考 \`openspec/architect/prompts/后端设计示例.md\`（或 \`前端设计示例.md\`）确认写作风格。
+3. Capture architecture diffs in \`openspec/changes/<id>/architect/mutations.xml\` (create the directory and file if missing) using one \`<MutationPartial>\` per create/update/delete. Each entry should set the element type tag (e.g., \`<Module>\`) with a \`mutationType="Create|Update|Delete"\` attribute and embed the JSON payload inside \`<![CDATA[ ... ]]>\`.
+4. Update the canonical snapshot under \`openspec/architect/\` so every node ID maps to a file path (e.g., \`openspec/architect/Common.module/Entity/B.entity\`). Persist the node fields as XML—use child elements for each property from the DSL definition and wrap code snippets (TypeScript, Mermaid, pseudocode) in CDATA.
+5. Keep dependencies consistent: validate referenced IDs exist, increment \`version\` fields when behavior changes, and note open questions in the mutation log so reviewers can track follow-ups.
+
+### Stage 3: Implementing Changes
 Track these steps as TODOs and complete them one by one.
 1. **Read proposal.md** - Understand what's being built
 2. **Read design.md** (if exists) - Review technical decisions
@@ -56,7 +65,7 @@ Track these steps as TODOs and complete them one by one.
 6. **Update checklist** - After all work is done, set every task to \`- [x]\` so the list reflects reality
 7. **Approval gate** - Do not start implementation until the proposal is reviewed and approved
 
-### Stage 3: Archiving Changes
+### Stage 4: Archiving Changes
 After deployment, create separate PR to:
 - Move \`changes/[name]/\` → \`changes/archive/YYYY-MM-DD-[name]/\`
 - Update \`specs/\` if capabilities changed
@@ -67,6 +76,7 @@ After deployment, create separate PR to:
 
 **Context Checklist:**
 - [ ] Read relevant specs in \`specs/[capability]/spec.md\`
+- [ ] Inspect architecture snapshot for affected nodes in \`openspec/architect/\`
 - [ ] Check pending changes in \`changes/\` for conflicts
 - [ ] Read \`openspec/project.md\` for conventions
 - [ ] Run \`openspec list\` to see active changes
@@ -125,6 +135,13 @@ openspec validate [change] --strict
 \`\`\`
 openspec/
 ├── project.md              # Project conventions
+├── architect/
+│   ├── prompts/            # 参考资料（DSL结构、输出规范、示例）
+│   │   ├── DSL结构定义.md
+│   │   ├── DSL输出规范.md
+│   │   ├── 后端设计示例.md
+│   │   └── 前端设计示例.md
+│   └── ...                 # 最新架构快照（按节点 ID 存放 XML）
 ├── specs/                  # Current truth - what IS built
 │   └── [capability]/       # Single focused capability
 │       ├── spec.md         # Requirements and scenarios
@@ -134,6 +151,8 @@ openspec/
 │   │   ├── proposal.md     # Why, what, impact
 │   │   ├── tasks.md        # Implementation checklist
 │   │   ├── design.md       # Technical decisions (optional; see criteria)
+│   │   ├── architect/      # Architecture mutation log for this change
+│   │   │   └── mutations.xml
 │   │   └── specs/          # Delta changes
 │   │       └── [capability]/
 │   │           └── spec.md # ADDED/MODIFIED/REMOVED

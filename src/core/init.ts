@@ -708,6 +708,7 @@ export class InitCommand {
   private async createDirectoryStructure(openspecPath: string): Promise<void> {
     const directories = [
       openspecPath,
+      path.join(openspecPath, 'architect'),
       path.join(openspecPath, 'specs'),
       path.join(openspecPath, 'changes'),
       path.join(openspecPath, 'changes', 'archive'),

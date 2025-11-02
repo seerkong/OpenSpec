@@ -26,6 +26,7 @@ export const AI_TOOLS: AIToolOption[] = [
   { name: 'Factory Droid', value: 'factory', available: true, successLabel: 'Factory Droid' },
   { name: 'OpenCode', value: 'opencode', available: true, successLabel: 'OpenCode' },
   { name: 'Kilo Code', value: 'kilocode', available: true, successLabel: 'Kilo Code' },
+  { name: 'Kode', value: 'kode', available: true, successLabel: 'Kode' },
   { name: 'Windsurf', value: 'windsurf', available: true, successLabel: 'Windsurf' },
   { name: 'Codex', value: 'codex', available: true, successLabel: 'Codex' },
   { name: 'GitHub Copilot', value: 'github-copilot', available: true, successLabel: 'GitHub Copilot' },

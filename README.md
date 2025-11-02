@@ -90,22 +90,23 @@ These tools have built-in OpenSpec commands. Select the OpenSpec integration whe
 
 | Tool | Commands |
 |------|----------|
-| **Claude Code** | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` |
-| **CodeBuddy Code (CLI)** | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` (`.codebuddy/commands/`) — see [docs](https://www.codebuddy.ai/cli) |
-| **Cursor** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` |
-| **Cline** | Rules in `.clinerules/` directory (`.clinerules/openspec-*.md`) |
-| **Crush** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.crush/commands/openspec/`) |
-| **Factory Droid** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.factory/commands/`) |
-| **OpenCode** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` |
-| **Kilo Code** | `/openspec-proposal.md`, `/openspec-apply.md`, `/openspec-archive.md` (`.kilocode/workflows/`) |
-| **Windsurf** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.windsurf/workflows/`) |
-| **Codex** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (global: `~/.codex/prompts`, auto-installed) |
-| **GitHub Copilot** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.github/prompts/`) |
-| **Amazon Q Developer** | `@openspec-proposal`, `@openspec-apply`, `@openspec-archive` (`.amazonq/prompts/`) |
-| **Auggie (Augment CLI)** | `/openspec-proposal`, `/openspec-apply`, `/openspec-archive` (`.augment/commands/`) |
+| **Claude Code** | `/openspec:proposal`, `/openspec:design-architect`, `/openspec:apply`, `/openspec:archive` |
+| **CodeBuddy Code (CLI)** | `/openspec:proposal`, `/openspec:design-architect`, `/openspec:apply`, `/openspec:archive` (`.codebuddy/commands/`) — see [docs](https://www.codebuddy.ai/cli) |
+| **Cursor** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` |
+| **Cline** | Rules in `.clinerules/` directory (`.clinerules/openspec-*.md`, now including design-architect) |
+| **Crush** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` (`.crush/commands/openspec/`) |
+| **Factory Droid** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` (`.factory/commands/`) |
+| **OpenCode** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` |
+| **Kilo Code** | `/openspec-proposal.md`, `/openspec-design-architect.md`, `/openspec-apply.md`, `/openspec-archive.md` (`.kilocode/workflows/`) |
+| **Kode** | `/openspec:proposal`, `/openspec:design-architect`, `/openspec:apply`, `/openspec:archive` (`.kode/commands/`) |
+| **Windsurf** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` (`.windsurf/workflows/`) |
+| **Codex** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` (global: `~/.codex/prompts`, auto-installed) |
+| **GitHub Copilot** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` (`.github/prompts/`) |
+| **Amazon Q Developer** | `@openspec-proposal`, `@openspec-design-architect`, `@openspec-apply`, `@openspec-archive` (`.amazonq/prompts/`) |
+| **Auggie (Augment CLI)** | `/openspec-proposal`, `/openspec-design-architect`, `/openspec-apply`, `/openspec-archive` (`.augment/commands/`) |
 
 
-Kilo Code discovers team workflows automatically. Save the generated files under `.kilocode/workflows/` and trigger them from the command palette with `/openspec-proposal.md`, `/openspec-apply.md`, or `/openspec-archive.md`.
+Kilo Code discovers team workflows automatically. Save the generated files under `.kilocode/workflows/` and trigger them from the command palette with `/openspec-proposal.md`, `/openspec-design-architect.md`, `/openspec-apply.md`, or `/openspec-archive.md`.
 
 #### AGENTS.md Compatible
 These tools automatically read workflow instructions from `openspec/AGENTS.md`. Ask them to follow the OpenSpec workflow if they need a reminder. Learn more about the [AGENTS.md convention](https://agents.md/).
@@ -140,6 +141,24 @@ cd my-project
 Run the initialization:
 ```bash
 openspec init
+```
+
+### Architecture Commands
+
+> These commands call an LLM to help maintain the architecture DSL. Configure `OPENAI_API_KEY` (and optionally `OPENAI_MODEL`, `OPENAI_BASE_URL`) before running them.
+
+- `openspec init-architect <docPath>` — Read a requirement document and produce the initial module decomposition (Module 与 ModuleRelationDiagram)，生成的 MutationPartial 会写入 `openspec/architect/`。
+- `openspec refine-architect --prompt "描述"` — 针对指定提示词迭代细化架构，可补充实体、接口、前端组件等部分。
+- `openspec sync-code-to-architect [--path src --prompt "..."]` — 扫描代码目录提取摘要，同步宏观架构并允许多次增量更新。初次执行仅拆分宏观模块，后续可结合提示词局部更新。
+
+运行这些命令会更新：
+
+```
+openspec/architect/
+├── prompts/                 # DSL 结构、输出规范及示例
+├── state.json               # 最新架构 DSL 的 JSON 快照
+├── logs/                    # 每次自动生成的 MutationPartial 备份
+└── ...                      # 按节点 ID 切分的 XML 详情
 ```
 
 **What happens during initialization:**

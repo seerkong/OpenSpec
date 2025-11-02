@@ -8,6 +8,10 @@ import { OPENSPEC_MARKERS } from "../../config.js";
 // Use POSIX-style paths for consistent logging across platforms.
 const FILE_PATHS: Record<SlashCommandId, string> = {
   proposal: ".codex/prompts/openspec-proposal.md",
+  "design-architect": ".codex/prompts/openspec-design-architect.md",
+  "init-architect": ".codex/prompts/openspec-init-architect.md",
+  "refine-architect": ".codex/prompts/openspec-refine-architect.md",
+  "sync-code-to-architect": ".codex/prompts/openspec-sync-code-to-architect.md",
   apply: ".codex/prompts/openspec-apply.md",
   archive: ".codex/prompts/openspec-archive.md",
 };
@@ -27,6 +31,30 @@ export class CodexSlashCommandConfigurator extends SlashCommandConfigurator {
       proposal: `---
 description: Scaffold a new OpenSpec change and validate strictly.
 argument-hint: request or feature description
+---
+
+$ARGUMENTS`,
+      "design-architect": `---
+description: Iterate the OpenSpec architecture DSL for the selected change.
+argument-hint: change-id
+---
+
+$ARGUMENTS`,
+      "init-architect": `---
+description: Seed the OpenSpec architecture DSL from a requirement document.
+argument-hint: requirement doc path or summary
+---
+
+$ARGUMENTS`,
+      "refine-architect": `---
+description: Refine the OpenSpec architecture DSL with a targeted prompt.
+argument-hint: prompt text (optionally with --change)
+---
+
+$ARGUMENTS`,
+      "sync-code-to-architect": `---
+description: Sync the OpenSpec architecture DSL with code-level findings.
+argument-hint: paths/prompt/--change flags
 ---
 
 $ARGUMENTS`,

@@ -4,6 +4,7 @@ import { claudeTemplate } from './claude-template.js';
 import { clineTemplate } from './cline-template.js';
 import { agentsRootStubTemplate } from './agents-root-stub.js';
 import { getSlashCommandBody, SlashCommandId } from './slash-command-templates.js';
+import { ARCHITECT_PROMPT_TEMPLATES } from './architect-prompts.js';
 
 export interface Template {
   path: string;
@@ -20,7 +21,8 @@ export class TemplateManager {
       {
         path: 'project.md',
         content: projectTemplate(context)
-      }
+      },
+      ...ARCHITECT_PROMPT_TEMPLATES
     ];
   }
 

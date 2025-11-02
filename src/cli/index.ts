@@ -13,6 +13,7 @@ import { registerSpecCommand } from '../commands/spec.js';
 import { ChangeCommand } from '../commands/change.js';
 import { ValidateCommand } from '../commands/validate.js';
 import { ShowCommand } from '../commands/show.js';
+import '../commands/architect.js';
 
 const program = new Command();
 const require = createRequire(import.meta.url);

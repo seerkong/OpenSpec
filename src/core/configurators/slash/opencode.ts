@@ -5,6 +5,10 @@ import { OPENSPEC_MARKERS } from "../../config.js";
 
 const FILE_PATHS: Record<SlashCommandId, string> = {
   proposal: ".opencode/command/openspec-proposal.md",
+  "design-architect": ".opencode/command/openspec-design-architect.md",
+  "init-architect": ".opencode/command/openspec-init-architect.md",
+  "refine-architect": ".opencode/command/openspec-refine-architect.md",
+  "sync-code-to-architect": ".opencode/command/openspec-sync-code-to-architect.md",
   apply: ".opencode/command/openspec-apply.md",
   archive: ".opencode/command/openspec-archive.md",
 };
@@ -18,6 +22,38 @@ The user has requested the following change proposal. Use the openspec instructi
 <UserRequest>
   $ARGUMENTS
 </UserRequest>
+`,
+  "design-architect": `---
+agent: build
+description: Iterate the OpenSpec architecture DSL for the selected change.
+---
+<ChangeId>
+  $ARGUMENTS
+</ChangeId>
+`,
+  "init-architect": `---
+agent: build
+description: Seed the OpenSpec architecture DSL from a requirement document.
+---
+<InitArchitectInput>
+  $ARGUMENTS
+</InitArchitectInput>
+`,
+  "refine-architect": `---
+agent: build
+description: Refine the OpenSpec architecture DSL with a targeted prompt.
+---
+<RefineArchitectInput>
+  $ARGUMENTS
+</RefineArchitectInput>
+`,
+  "sync-code-to-architect": `---
+agent: build
+description: Sync the OpenSpec architecture DSL with code-level findings.
+---
+<SyncArchitectInput>
+  $ARGUMENTS
+</SyncArchitectInput>
 `,
   apply: `---
 agent: build
