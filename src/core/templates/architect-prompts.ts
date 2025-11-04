@@ -273,7 +273,7 @@ HTTP 接口更新：
 
 > 注意：每个 \`<MutationPartial>\` 内只能出现一个 DSL 类别。例如模块 + 过程混合属于无效输出。`;
 
-const BACKEND_SAMPLE_PROMPT = String.raw`# 架构 DSL 后端示例（业务与逻辑层）
+const SAMPLE_PROMPT = String.raw`# 架构 DSL 后端示例（业务与逻辑层）
 
 以下示例展示如何拆解后端模块、实体、逻辑过程以及模块关系图。可根据业务实际调整。
 
@@ -402,9 +402,8 @@ const BACKEND_SAMPLE_PROMPT = String.raw`# 架构 DSL 后端示例（业务与�
 </MutationPartial>
 \`\`\`
 
-使用以上示例可以快速创建设计稿，但仍需结合实际业务进行精炼、命名与描述。`;
 
-const FRONTEND_SAMPLE_PROMPT = String.raw`# 架构 DSL 前端示例（视图与页面）
+# 架构 DSL 前端示例（视图与页面）
 
 以下示例展示如何为前端视图组件与页面生成 DSL 变更。请遵循 ID 命名约定：
 
@@ -474,7 +473,9 @@ interface IEmits {
 2. **TypeScript 定义**：包括 props/expose/emits，帮助实现者快速了解接口契约。
 3. **依赖声明**：通过 \`dependency.viewComponentIds\` 表达组件组合关系；页面依赖组件 ID。
 
-保持组件层级精简，聚焦业务语义而非通用 UI。`;
+保持组件层级精简，聚焦业务语义而非通用 UI。
+使用以上示例可以快速创建设计稿，但仍需结合实际业务进行精炼、命名与描述。
+`;
 
 export const ARCHITECT_PROMPT_TEMPLATES: ArchitectPromptTemplate[] = [
   {
@@ -486,11 +487,7 @@ export const ARCHITECT_PROMPT_TEMPLATES: ArchitectPromptTemplate[] = [
     content: TECH_DESIGN_OUTPUT_SPEC
   },
   {
-    path: 'architect/prompts/后端设计示例.md',
-    content: BACKEND_SAMPLE_PROMPT
+    path: 'architect/prompts/DSL设计示例.md',
+    content: SAMPLE_PROMPT
   },
-  {
-    path: 'architect/prompts/前端设计示例.md',
-    content: FRONTEND_SAMPLE_PROMPT
-  }
 ];

@@ -64,7 +64,7 @@ export async function runInitArchitect(
     },
     {
       role: 'system',
-      content: await loadPrompt(ctx.projectPath, '后端设计示例.md'),
+      content: await loadPrompt(ctx.projectPath, 'DSL设计示例.md'),
     },
     {
       role: 'user',
@@ -110,11 +110,7 @@ export async function runRefineArchitect(
     },
     {
       role: 'system',
-      content: await loadPrompt(ctx.projectPath, '后端设计示例.md'),
-    },
-    {
-      role: 'system',
-      content: await loadPrompt(ctx.projectPath, '前端设计示例.md'),
+      content: await loadPrompt(ctx.projectPath, 'DSL设计示例.md'),
     },
     {
       role: 'user',
@@ -175,12 +171,7 @@ export async function runSyncCodeToArchitect(
     {
       role: 'system',
       content:
-        (await maybeLoadPrompt(ctx.projectPath, '后端设计示例.md')) ?? '',
-    },
-    {
-      role: 'system',
-      content:
-        (await maybeLoadPrompt(ctx.projectPath, '前端设计示例.md')) ?? '',
+        (await maybeLoadPrompt(ctx.projectPath, 'DSL设计示例.md')) ?? '',
     },
     {
       role: 'user',
